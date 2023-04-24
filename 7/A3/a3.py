@@ -31,56 +31,41 @@ print(isinstance(mn, AbstractX)) #  prints: True
 print(isinstance(ms, AbstractX)) #  prints: True
 print(isinstance(mx, AbstractX)) #  prints: False
 '''
-from abc import ABCMeta, abstractclassmethod
+from abc import ABCMeta
 
-class AbstractX(metaclass=ABCMeta):
-    
-    @classmethod
-    def __subclasshook__(cls, subclass):
-        if cls is AbstractX:
-            if hasattr(subclass, 'x') and not callable(subclass.x):
-                return True
-
-    @abstractclassmethod
-    def x(cls):
-        pass
-
-
-class MyNum(AbstractX):
+class MyNum:
     def __init__(self, x):
         self.x = x
 
     def __index__(self):
         return int(self.x)
-    
-    @classmethod
-    def x(cls):
-        pass
 
-
-class MyStr(AbstractX):
+class MyStr:
     def __init__(self, x):
         self.x = x
 
     def __str__(self):
         return str(self.x)
-    
-    @classmethod
-    def x(cls):
-        pass
 
-
-class MyX(AbstractX):
+class MyX:
     def __init__(self, x):
-        self.xl = [x, ]
+        self.xl = [x]
 
     def x(self):
         return self.xl
-    
+
+class AbstractX(metaclass=ABCMeta):
     @classmethod
-    def x(cls):
-        pass
+    def __subclasshook__(cls, C):
+        if cls is AbstractX:
+            for B in C.__mro__:
+                if "x" in B.__dict__:
+                    if not callable(B.__dict__["x"]):
+                        return True
+        return NotImplemented
     
+AbstractX.register(MyNum)
+AbstractX.register(MyStr)
 
 if __name__ == "__main__":
     mn = MyNum(700)
