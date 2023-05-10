@@ -13,9 +13,7 @@ If there are mesages:
 'Ja lähetäthän tiedon vielä osoitteeseen kalle-jukola.heitto-valmennus@sul_yu.fi'
 'tiedoksi pjukola.heitto-valmennus@sul_yu.fi, heitto-valmennus@sul_yu.fi, hannukka.suvi@sul.fi'
 the script extracts and prints the email adresses:
-mail: pjukola.heitto-valmennus@sul_yu.fi
-mail: heitto-valmennus@sul_yu.fi
-mail: hannukka.suvi@sul.fi
+mail: kalle-jukola.heitto-valmennus@sul_yu.fi
 mail: pjukola.heitto-valmennus@sul_yu.fi
 mail: heitto-valmennus@sul_yu.fi
 mail: hannukka.suvi@sul.fi
@@ -29,11 +27,12 @@ messages =[
 ]
 
 # Define the regular expression pattern for a valid email address
-pattern = r"[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+"
+pattern = r"(?<![._-])[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+(?![._-])"
 
-# Loop through each message and extract any valid email addresses using the pattern
-for message in messages:
-    emails = re.findall(pattern, message)
-    # Loop through each email address and print it out
-    for email in emails:
-        print("mail:", email)
+if __name__ == "__main__":
+    # Loop through each message and extract any valid email addresses using the pattern
+    for message in messages:
+        emails = re.findall(pattern, message)
+        # Loop through each email address and print it out
+        for email in emails:
+            print("mail:", email)
