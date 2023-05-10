@@ -3,29 +3,33 @@
 '''
 @File       :   a2.py
 @Time       :   2023/05/10 13:02:03
-@Author(s)  :   Uras Ayanoglu 
+@Author(s)  :   Uras Ayanoglu
 @Version    :   1.0
 @Contact    :   uras.ayanoglu@edu.turkuamk.fi
 @License    :   ©Copyright 2023, Uras Ayanoglu
-@Desc       :   Write a regular expression that finds if a word Finland has been used and in which place (starting index) in any given text.
-e.g.
-if a given string is: Welcome to Finland!
-the result (starting index)  is: 11
+@Desc       :   Write a regular expression to verify if a string contains any (capital or small) scandinavian characters (ä, ö, å) 
+e.g. 
+if a given string is:'Yökkönen yllä Äänisen yllätti Åken.'
+the result is: 'the string contains scandinavian characters'
+if a given string is: 'Yliopistomme on maan vanhin.'
+the result is: 'there are no scandinavian characters'
 '''
 
 import re
 
-text = "Welcome to Finland!"
-pattern = r"\bFinland\b"
+scandinavian_pattern = re.compile("[äöåÄÖÅ]")
 
+def check_scandinavian(string):
+    if scandinavian_pattern.search(string):
+        return "the string contains scandinavian characters"
+    else:
+        return "there are no scandinavian characters"
 
 
 if __name__ == "__main__":
 
-    match = re.search(pattern, text)
+    string1 = "Yökkönen yllä Äänisen yllätti Åken."
+    string2 = "Yliopistomme on maan vanhin."
 
-    if match:
-        start_index = match.start()
-        print(f"The result (starting index) is: {start_index}")
-    else:
-        print("The word 'Finland' was not found in the text.")
+    print(check_scandinavian(string1)) # the string contains scandinavian characters
+    print(check_scandinavian(string2)) # there are no scandinavian characters
